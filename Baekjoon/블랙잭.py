@@ -1,3 +1,6 @@
+# 2798번
+# 브루트포스 알고리즘
+
 def blackjack(N, M, L):
     L.sort()
     max = 0
