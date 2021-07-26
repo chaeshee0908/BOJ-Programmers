@@ -12,7 +12,6 @@ def blackjack(N, M, L):
                     max = s
     return max
     
-
 N, M = map(int, input().split())
 list1 = list(map(int, input().split()))
 print(blackjack(N,M,list1))
