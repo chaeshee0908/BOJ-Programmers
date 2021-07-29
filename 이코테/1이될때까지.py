@@ -1,6 +1,5 @@
 # 그리디 알고리즘
 
-
 N, K = map(int,input().split())
 cnt = 0
 while N != 1:
