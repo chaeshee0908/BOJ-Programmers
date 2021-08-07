@@ -1,7 +1,6 @@
 # 10773번 (실버4)
 # 구현, 자료 구조, 문자열, 스택
 
-
 num = int(input())
 n_list = []
 for _ in range(num):
