@@ -6,6 +6,7 @@ from collections import deque
 
 n = int(sys.stdin.readline())
 seq = list(map(int, sys.stdin.readline().split()))
+# 오큰수 배열 
 NGE = ['-1']*n
 stack = deque()
 for i in range(n):
