@@ -1,53 +1,43 @@
+# bfs, dfs
+
+from collections import deque
+
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+
+def bfs(room, x, y, d):
+    visited = [[False]*5 for _ in range(5)]
+    queue = deque()
+    queue.append([x, y, d])
+    while queue:
+        x, y, d = queue.popleft()
+        visited[x][y] = True
+
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            nd = d + 1
+
+            if 0 <= nx < 5 and 0 <= ny < 5 and not visited[nx][ny]:
+                visited[nx][ny] = True
+
+                if room[nx][ny] == 'P':
+                    if nd <= 2:
+                        return False
+                elif room[nx][ny] == 'O':
+                    queue.append([nx, ny, nd])
+    return True
+
 def solution(places):
-    answer = [-1]*5
+    answer = []
     for room in places:
+        flag = 1
         for i in range(5):
             for j in range(5):
                 if room[i][j] == 'P':
-                    if i >= 1 and j >= 1:
-                        if room[i-1][j] == 'P' or room[i][j-1] == 'P':
-                            answer[places.index(room)] = 0
-                        else:
-                            if answer[places.index(room)] == -1:
-                                answer[places.index(room)] = 1
-                    if answer == 0:
-                        break
-                    if i >= 2 and j >= 2:
-                        if room[i-1][j] == 'P' or room[i][j-1] == 'P':
-                            answer[places.index(room)] = 0
-                        elif room[i-2][j] == 'P':
-                            if room[i-1][j] == 'X':
-                                if answer[places.index(room)] == -1:
-                                   answer[places.index(room)] = 1
-                            else:
-                                answer[places.index(room)] = 0
-                                break
-                        elif room[i-1][j-1] == 'P':
-                            if room[i][j-1] == 'X' and room[i-1][j] == 'X':
-                                if answer[places.index(room)] == -1:
-                                   answer[places.index(room)] = 1
-                            else:
-                                answer[places.index(room)] = 0
-                                break
-                        elif room[i][j-2] == 'P':
-                            if room[i][j-1] == 'X':
-                                if answer[places.index(room)] == -1:
-                                    answer[places.index(room)] = 1
-                            else:
-                                answer[places.index(room)] = 0
-                                break
-                    if answer == 0:
-                        break
-                    if i >= 0 and j >= 1 and i < 4:
-                        if room[i+1][j-1] == 'P':
-                            if room[i][j-1] == 'X' and room[i+1][j] == 'X':
-                                if answer[places.index(room)] == -1:
-                                    answer[places.index(room)] = 1
-                            else:
-                                answer[places.index(room)] = 0
-                else:
-                    if answer[places.index(room)] == -1:
-                        answer[places.index(room)] = 1
+                    if bfs(room, i, j, 0) == False:
+                        flag = 0
+        answer.append(flag)
     return answer
 
 places = [["POOOP","OXXOX", "OPXPX", "OOXOX","POXXP"], 
