@@ -1,35 +1,27 @@
 # 동적계획법(DP)
 
-n_line = [0, 1, 11, 111, 1111, 11111, 111111]
-def recur(N, number, answer):
-    num_list = list(map(lambda x: x * N, n_line))
-    if number in num_list:
-        answer += num_list.index(number)
-        return answer
-    # 나머지가 생겼을 때
-    if number % N != 0:
-        number *= N
-        answer += 1
-        if number in num_list:
-            answer += num_list.index(number)
-            return answer
-        else:
-            number -= N
-            answer += 1
-    else:
-        # number의 자릿수
-        n = len(list(str(number)))
-        if number < num_list[n]:
-            number -= num_list[n-1]
-            answer += n-1
-        else:
-            number -= num_list[n]
-            answer += n
-    return recur(N, number, answer)
-
 def solution(N, number):
-    answer = 0
-    return recur(N, number, answer)
+    # 이어 붙인 숫자 초기화 
+    dp = [set([int(str(N)*i)]) for i in range(1, 9)]
+    
+    # N 사용 횟수
+    for cnt in range(8):
+        for i in range(cnt):
+            # N의 총 카운트 개수 중 i개
+            for num1 in dp[i]:
+                # N의 총 카운트 개수 중 i개를 제외한 나머지
+                for num2 in dp[cnt-i-1]:
+                    dp[cnt].add(num1 + num2)
+                    dp[cnt].add(num1 - num2)
+                    dp[cnt].add(num1 * num2)
+                    if num2 != 0:
+                        dp[cnt].add(num1 // num2)
+        # number가 연산 결과에 있으면 리턴
+        if number in dp[cnt]:
+            return cnt + 1
+        
+    return -1
 
-print(solution(5, 12))
-print(solution(2, 11))
+# print(solution(5, 12))
+# print(solution(2, 11))
+print(solution(8, 53))  # 5가 나와야함
